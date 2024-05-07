@@ -1,0 +1,8 @@
+[default]
+
+EXTENSIONS = [
+'views:configure'
+
+
+
+]
