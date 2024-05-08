@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, session
 from models import Usuario
 from database import db
 import os
@@ -18,26 +18,30 @@ def registrar():
         db.session.commit()
         print("Deu certo")
     else:
-        print("Esse usuário já existe")
+        return redirect(url_for("views.index"))
     
-    return redirect(url_for('views.index'))
+    return redirect(url_for('views.login'))
 
 @views.route('/loginc/', methods= ['POST'])
 def valida_usuario():
     usuario = Usuario.query.filter_by(nome=request.form["nome"]).first()
     if usuario is not None:
          if(usuario.senha == (request.form["senha"])):
+              session['name'] = request.form["nome"]
               return redirect(url_for('views.upload'))
 
     return redirect(url_for('views.login'))
 
 @views.route('/login/', methods = ['GET', 'POST'])
 def login():
+
     return render_template('login.html')
 
 @views.route('/upload/')
 def upload():
-    return render_template('upload.html')
+    if('name' in session):
+        return render_template('upload.html')
+    return redirect(url_for('views.login'))
 
 @views.route('/uploadc/', methods = ['POST'])
 def uploadc():
