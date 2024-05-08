@@ -1,7 +1,12 @@
 [default]
 
+SQLALCHEMY_DATABASE_URI = 'sqlite:///minhabase.sqlite3'
+secret_key = 'RRcXOqdSnon9TbduJ3fAT9SJlXMMAvMxh7wJTH-KTYE'
+
+
 EXTENSIONS = [
-'views:configure'
+'views:configure',
+'database:configure'
 
 
 
