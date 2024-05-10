@@ -6,6 +6,9 @@ views = Blueprint("views", __name__)
 
 @views.route('/')
 def index():
+    for i in Usuario.query.all():
+        print(i.nome)
+        print(i.senha)
     return render_template('index.html')
 
 
@@ -18,9 +21,9 @@ def registrar():
         db.session.commit()
         print("Deu certo")
     else:
-        return redirect(url_for("views.index"))
+        return redirect('/')
     
-    return redirect(url_for('views.login'))
+    return redirect('/login/')
 
 @views.route('/loginc/', methods= ['POST'])
 def valida_usuario():
@@ -28,9 +31,9 @@ def valida_usuario():
     if usuario is not None:
          if(usuario.senha == (request.form["senha"])):
               session['name'] = request.form["nome"]
-              return redirect(url_for('views.upload'))
+              return redirect('/upload/')
 
-    return redirect(url_for('views.login'))
+    return redirect('/login/')
 
 @views.route('/login/', methods = ['GET', 'POST'])
 def login():
